@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>菜鸟教程(runoob.com)</title>
+<style type="text/css">
+        table {
+            border: 1px solid black;
+            text-align: center;
+            border-collapse: collapse;
+        }
+        table thead th {
+            border: 1px solid black;
+        }
+        table tbody td {
+            border: 1px solid black;
+        }
+    </style>
+
+<body>
+
+<h6>Thymeleaf 模板引擎之配合jdbc连接数据库返回的数据</h6>
+
+<table cellpadding="0" cellspacing="0">
+  <thead>
+            <th>用户微信id</th>
+            <th>用户昵称</th>
+            <th>用户头像图片地址</th>
+            <th>用户所在城市</th>
+            <th>用户性别</th>
+  </thead>
+  <tbody>
+     <tr th:each="user,userStat:${userList}">
+        <td th:text="${user.uid}"></td>
+        <td th:text="${user.nickname}"></td>
+        <td th:text="${user.headimgurl}"></td>
+        <td th:text="${user.city}"></td>
+        <td th:text="${user.country}"></td>
+     </tr>
+  </tbody>
+
+</table>
+
+</body>
+</html>

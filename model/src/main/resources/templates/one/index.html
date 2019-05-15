@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>菜鸟教程(runoob.com)</title>
+<style type="text/css">
+        table {
+            border: 1px solid black;
+            text-align: center;
+            border-collapse: collapse;
+        }
+        table thead th {
+            border: 1px solid black;
+        }
+        table tbody td {
+            border: 1px solid black;
+        }
+    </style>
+
+<body>
+
+<h6>Thymeleaf 模板引擎</h6>
+<h1 th:text="${hello}">Hello, Spring Boot!</h1>
+
+
+<table cellpadding="0" cellspacing="0">
+        <thead>
+            <th>序号</th>
+            <th>学生id</th>
+            <th>学生姓名</th>
+            <th>学生年龄</th>
+            <th>学生课程-课程列表</th>
+            <th>学生课程-课程分数</th>
+        </thead>
+        <tbody>
+            <tr th:each="entries,stat:${resultList}" th:style="'background-color:'+@{${stat.odd}?'#F2F2F2'}">
+                <td th:text="${stat.count}"></td>
+                <td th:text="${entries['sid']}"></td>
+                <td th:text="${entries['sname']}"></td>
+                <td th:text="${entries['sage']}"></td>
+                <!-- 写法一：
+                <td th:text="${entries['scourse']['cname']}"></td>
+                <td th:text="${entries['scourse']['cscore']}"></td>-->
+                <!-- 写法二：
+                <td th:text="*{entries['scourse']['cname']}"></td>
+                <td th:text="*{entries['scourse']['cscore']}"></td>-->
+                <!-- 写法三：-->
+                <td th:object="${entries['scourse']}">
+                    <span th:text="*{['cname']}"></span>
+                </td>
+                <td th:object="${entries['scourse']}">
+                    <span th:text="*{['cscore']}"></span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+<br/>
+<div th:each="user,stat:${array}" th:class="${stat.even}?'even':'odd'">
+    下标：<input th:value="${stat.even}"/><br/>
+    下标：<input th:value="${stat.index}"/><br/>
+    序号：<input th:value="${stat.count}"/><br/>
+    名字：<input th:value="${user.name}"/><br/>
+</div>
+
+
+<div th:each="user,userStat:${userList}" th:class="${userStat.even}?'even':'odd'">
+    序号：<input type="text" th:value="${userStat.count}"/>
+    账号：<input type="text" th:value="${user.username}"/>
+    密码：<input type="text" th:value="${user.password}"/>
+   时间：<input type="text" th:value="${user.createTime}"/>
+   时间：<input type="text" th:value="${#dates.format(user.createTime,'yyyy-MM-dd HH:mm:ss')}"/>
+</div>
+</body>
+</html>
