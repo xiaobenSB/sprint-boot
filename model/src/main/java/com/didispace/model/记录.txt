@@ -1,0 +1,72 @@
+sprint boot里可能发生的事
+
+下面的可能是 SpringApplication.run(xxx);执行后，然后会扫描这些  @xxx 
+
+使用: @SpringBootApplication
+	           等同使用了       @Configuration
+				    @EnableAutoConfiguration
+				    @Import
+			    
+使用:  @RestController   
+                     路由对应的方法返回的是字符串（spring会 把方法返回的转成字符串返回给浏览器）
+                    可以参考 App.java 
+                       
+使用:  @Controller   
+                    路由对应的方法返回的是静态目录文件（spring会 把方法返回的转成静态目录路径，然后找到文件，并在浏览器渲染该文件）
+                    可以参考 thymeleafModel.java  
+          
+使用:  @Configuration
+	          用于定义配置类，可替换xml配置文件，
+	         被注解的类内部包含有一个或多个被@Bean注解的方法，
+	          这些方法将会被AnnotationConfigApplicationContext或AnnotationConfigWebApplicationContext类进行扫描，
+	          并用于构建bean定义，初始化Spring容器。
+	          
+使用:  @Autowired 
+                    并声明   private Logger xxx(变量名)    
+                    扫描时会把 xxx = Bean Logger类型的方法
+                   好像你在application.properties配置后 
+                   同样可以使用 @Autowired注解来找到并赋给想使用的变量         可以参考thymeleafModeljdbc.java
+                    
+--------------------------------------------------
+
+想使用类似与  js的{}时
+		 Map<String, Object> student = new HashMap<String, Object>(){{
+			            put("sid", "101");
+			            put("sname", "张三");
+			            put("sage", "20");
+			            put("scourse", new HashMap<String, String>(){{
+			                put("cname", "语文,数学,英语");
+			                put("cscore", "93,95,98");
+			            }});
+			        }};
+	       注意最后一个put,因为是string,object，所有第二个类型可以是任意，所以最后的会为 scourse: {cname: "语文，属性，英语"，cscore："93,95,98"}
+	      你也可以使用  添加数据： student.put("www","xiaoben");
+		                           获取数据：student.get("www")); 
+		                            遍历:   for (Map.Entry<String, Object> entry : student.entrySet()) { 
+						      System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue()); 
+							}
+	       
+	   List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
+	   resultList.add(student);     //就类似于   [{sid:101},{sname:张三}等等了]
+			
+想使用类似于 js的[]时
+       List<String> array = new ArrayList<String>();
+                 注意:  添加数据时不是array[0] = "w"; 而是 array.add("w");
+                 获取数据为:   array.get(0)  
+                 遍历:  for(String cc : array) {
+			System.out.println(cc);
+		}   
+
+上面通过 @Autowired注解找到bean里的方法可能是类似于下面的
+		//打印类名  
+				Class a = thymeleafModel.class;     可能是  Class a = bean.class
+		        System.out.println(a.getName());    
+		        Method[] m = a.getMethods();        可能是   Method[] m = a.getMethods();
+		        //遍历实现方法                        
+		        for (Method method : m) {           			可能是   for (Method method : m) { 
+		            System.out.println(method.getName());           		  method.getName().getClass().toString() === "@Autowired下声明的类型";
+		            //上面打印thymeleafModel类里面的方法名                                                      然后      @Autowired下声明的类型变量就   =   该method.getName()执行后返回的东西
+		            System.out.println(method.getName().getClass().toString());  
+		            //上面打印thymeleafModel类里面的方法名 类型                                                                                                                                            
+		        }                                                       }
+

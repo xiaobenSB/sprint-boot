@@ -22,7 +22,7 @@ public class bean implements ApplicationContextAware {
 
         System.out.println("========ApplicationContext配置成功,在普通类可以通过调用SpringUtils.getAppContext()获取applicationContext对象,applicationContext="+bean.applicationContext+"========");
 
-        System.out.println("---------------------------------------------------------------------");
+        System.out.println("---------------------可在App.java里的bean方法测试------------------------------------------------");
     }
 
     //获取applicationContext
