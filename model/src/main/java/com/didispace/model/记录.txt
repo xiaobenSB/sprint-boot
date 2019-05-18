@@ -13,19 +13,55 @@ sprint boot里可能发生的事
                        
 使用:  @Controller   
                     路由对应的方法返回的是静态目录文件（spring会 把方法返回的转成静态目录路径，然后找到文件，并在浏览器渲染该文件）
-                    可以参考 thymeleafModel.java  
+                    可以参考 thymeleafModel.java
+                    
+使用:  @Controller后，（使用表单验证时）
+                    你可以不用使用Model来渲染数据到页面，由于你在页面里使用th:object="${xxx}"
+                   只要你项目下有文件xxx.java，里面对应class xxx类，那么他就会自己找到,Model有设置的话Model优先级高
+                   注意：他内部错误保存的key应该是类型，不是变量名，如：@Valid xxx xxxx时
+                                 可能内部保存着  xxx：错误信息
+             model.addAttribute("xxxx", new xx());  这里为key为xxxx,值为:xx类（类型）
+                                  错误查找时找内部有没有xx类对应的错误信息,但由于@Valid xxx xxxx,
+                                  错误信息设置在xxx那里，就会找不到
+                                  错误信息查找方式：先找model里的设置，找到key后就使用key对应的类去查找错误信息
+             model里没有时再找项目下的有没有这个类（开头大或小写都不影响），找到后就用该类去查找 错误信息  
+                                   
+                                  所以你想使用表单验证时，th:object的值（xx）得对应项目里(xx.java文件)
+                                  或者model的设置值必须对应@Valid设置的类                           
+                                  你th:object不对应时，那么他就找不到对应内部保存的错误信息
+             th:object等于的值开头必须得小写，文件可以是大写开头的                 
+                   参考： Form.java
+                   
+使用：   @ConfigurationProperties注解
+                  主要用来把properties配置文件转化为bean来使用的
+                 而@EnableConfigurationProperties注解的作用是@ConfigurationProperties注解生效。
+                 如果只配置@ConfigurationProperties注解，在IOC容器中是获取不到properties配置文件转化的bean的。
+                  并且也没有注入把当前类注入到bean里
+	       所以得配置@EnableConfigurationProperties并对应@ConfigurationProperties类
+	       好像只能对应一个
+                  参考： StorageProperties.java 与  xiaoben.java
+
           
 使用:  @Configuration
 	          用于定义配置类，可替换xml配置文件，
 	         被注解的类内部包含有一个或多个被@Bean注解的方法，
 	          这些方法将会被AnnotationConfigApplicationContext或AnnotationConfigWebApplicationContext类进行扫描，
 	          并用于构建bean定义，初始化Spring容器。
+	         
+使用:  @Bean    
+                 这个是属于@Configuration上下文当中的，也就是依赖@Configuration
+
+使用：    @Service
+                   把当前类注入到Bean里 ，比@Configuration @Bean这样配置的少了可以先配置，在实例化当前类
+                    参考：twoApp.java
 	          
 使用:  @Autowired 
                     并声明   private Logger xxx(变量名)    
                     扫描时会把 xxx = Bean Logger类型的方法
+                    也就是会找到注入到Bean里的方法
                    好像你在application.properties配置后 
                    同样可以使用 @Autowired注解来找到并赋给想使用的变量         可以参考thymeleafModeljdbc.java
+                  
                     
 --------------------------------------------------
 

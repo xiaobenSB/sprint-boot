@@ -1,8 +1,12 @@
 package com.didispace.model;
 
+import com.didispace.model.web.twoApp;
+import com.didispace.model.web.threeApp;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Hello world!
@@ -49,6 +53,20 @@ public class App {
 	@RequestMapping("/bean")
 	public Object  bean(HttpServletRequest request,HttpSession session) {
 	    return  new bean().getBean("testDemo");
+	}
+	
+	@Autowired  
+    private twoApp twoapp;
+	@RequestMapping("/ceshi")
+	public int ceshi(HttpServletRequest request,HttpSession session) {
+	    return  twoapp.a();
+	}
+	
+	@Autowired  
+    private threeApp threeapp;
+	@RequestMapping("/ceshi2")
+	public int ceshitwo(HttpServletRequest request,HttpSession session) {
+	    return  threeapp.a();
 	}
 
 }
