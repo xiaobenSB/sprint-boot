@@ -40,7 +40,7 @@ public class xiaoben{
     }
 	
 	@Bean
-    public Executor taskExecutor() {     //修改@Aysnc对应的并发池配置
+    public Executor taskExecutor() {     //修改@Aysnc注解对应的并发池配置
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(2); //并发数量限制为2
         executor.setMaxPoolSize(2);  //并发数量限制为2
@@ -51,7 +51,7 @@ public class xiaoben{
     }
 	
 	@Bean
-    CommandLineRunner init(StorageService storageService){
+    CommandLineRunner init(StorageService storageService){     //这个好像是springBoot里默认的初始化会执行的方法
 		  
 		//上传文件初始化
         return (args) -> {

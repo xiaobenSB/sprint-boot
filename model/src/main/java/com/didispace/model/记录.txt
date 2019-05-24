@@ -65,9 +65,13 @@ sprint boot里可能发生的事
 		         被注解的类内部包含有一个或多个被@Bean注解的方法，
 		          这些方法将会被AnnotationConfigApplicationContext或AnnotationConfigWebApplicationContext类进行扫描，
 		          并用于构建bean定义，初始化Spring容器。
+		         注意   @Configuration注解的类也是注入在bean里的
+		                     里面可以再使用@Bean把其他类注入到bean里
+		                     参考：web下的twoApp.java和项目下的xiaoben.java
 	         
 使用:  @Bean    
                                这个是属于@Configuration上下文当中的，也就是依赖@Configuration
+                               使用该注解的必须有类型，也就是不能在public void xxx上使用
 
 使用：    @Service
 	                   把当前类（只是实例化了）注入到Bean里 ，比@Configuration @Bean这样配置的少了可以先配置，在实例化当前类,或者实例化后配置

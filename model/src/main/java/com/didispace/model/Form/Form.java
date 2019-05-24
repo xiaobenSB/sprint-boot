@@ -15,13 +15,8 @@ import com.didispace.model.PersonForm;;
 
 @Controller
 @RequestMapping("/form")
-public class Form implements WebMvcConfigurer {
+public class Form {
 
-  
-    public void addViewControllers(ViewControllerRegistry registry) {  
-        registry.addViewController("/results").setViewName("/one/index");
-        //registry.addViewController("/404").setViewName("/one/404");   
-    }
 
     @GetMapping("")
     public String showForm(ValidForm personForm,Model model) {
@@ -43,6 +38,6 @@ public class Form implements WebMvcConfigurer {
             return "one/form";
         }
         //return "redirect:/results";
-        return "one/formResult";
+         return "one/formResult";
     }
 }
