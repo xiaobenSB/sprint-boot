@@ -26,13 +26,15 @@ public class Controller implements HandlerInterceptor {
           out.close();*/
     	
     	  //response.sendRedirect("/404.html"); 重定向
+    	
+    	  System.out.println("拦截所有的请求");
           return true;
 
     }
  
 
     public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {
-    	System.out.println("当拦截1返回true时,接着处理对应路由里的（我们）设置，处理完后触发这里");
+    	System.out.println("当拦截返回true时,接着处理对应路由里的（我们）设置，处理完后触发这里");
     }
  
 

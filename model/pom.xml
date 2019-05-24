@@ -20,6 +20,16 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+	<!-- spring-boot-缓存 -->
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
+    <!-- 读取mysql或文件数据 并处理后返回给文件或mysql -->
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-batch</artifactId>
+        </dependency>
 	<!-- 远程调用  httpclient -->
 		<dependency>
 		    <groupId>org.apache.httpcomponents</groupId>

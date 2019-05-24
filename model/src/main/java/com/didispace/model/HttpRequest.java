@@ -2,6 +2,7 @@ package com.didispace.model;
 
 
 import java.util.HashMap;
+
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 
 import lombok.Data;
 import net.sf.json.JSONObject;
+import com.didispace.model.requestClass.RequestClass;;
 
 class A{
 	private int a = 1;
@@ -79,4 +81,11 @@ public class HttpRequest {
 		return 1;
 	
 	}
+	
+	@RequestMapping("/getTwo")
+	public String httpGetTwo() {
+		RequestClass info  = this.restTemplate.getForObject("https://gturnquist-quoters.cfapps.io/api/random", RequestClass.class);
+		return info.toString();
+	} 
+	
 }

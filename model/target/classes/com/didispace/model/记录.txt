@@ -1,25 +1,43 @@
 sprint boot里可能发生的事
 
-下面的可能是 SpringApplication.run(xxx);执行后，然后会扫描这些  @xxx 
+下面的可能是 SpringApplication.run(xxx);执行后，然后会扫描这些  @xxx
 
-使用: @SpringBootApplication
-	           等同使用了       @Configuration
-				    @EnableAutoConfiguration
-				    @Import
+使用      spring batch时
+		         必须创建 相关的九张表
+		         创建表的脚本链接：https://www.cnblogs.com/sailormoon/p/7170812.html
+
+使用       @Override
+                              代表下面的方法是重写的（如使用继承时，继承的类里的方法和被继承里的方法同名，但被继承的类还是原来的处理方式）
+                              一个类继承一个类时，代表继承的类里有两种类型，一种是本身类型和被继承类的类型
+                             本身的类重写时，类型必须得和被继承的类型一致，所以重写的意义只是换种处理方式而已
+         
+使用       @EnableCaching注释时
+		         会检查每个的Spring bean缓存标注的公共方法存在。如果找到这样的注释，则自动创建代理以拦截方法调用并相应地处理缓存行为。
+		         管理的注释是Cacheable，CachePut和CacheEvict
+
+使用       @Component时
+                                也是注入bean里的一种方式
+
+使用:  @SpringBootApplication
+		           等同使用了       @Configuration
+					    @EnableAutoConfiguration
+					    @Import
 			    
 使用:  @RestController   
-                     路由对应的方法返回的是字符串（spring会 把方法返回的转成字符串返回给浏览器）
-                    可以参考 App.java 
+	                     路由对应的方法返回的是字符串（spring会 把方法返回的转成字符串返回给浏览器）
+	                    可以参考 App.java 
                        
 使用:  @Controller   
-                    路由对应的方法返回的是静态目录文件（spring会 把方法返回的转成静态目录路径，然后找到文件，并在浏览器渲染该文件）
-                    可以参考 thymeleafModel.java
+	                    路由对应的方法返回的是静态目录文件（spring会 把方法返回的转成静态目录路径，然后找到文件，并在浏览器渲染该文件）
+	                    可以参考 thymeleafModel.java
                     
 使用:  @Controller后，（使用表单验证时）
-                    你可以不用使用Model来渲染数据到页面，由于你在页面里使用th:object="${xxx}"
-                   只要你项目下有文件xxx.java，里面对应class xxx类，那么他就会自己找到,Model有设置的话Model优先级高
-                   注意：他内部错误保存的key应该是类型，不是变量名，如：@Valid xxx xxxx时
-                                 可能内部保存着  xxx：错误信息
+	                    你可以不用使用Model来渲染数据到页面，由于你在页面里使用th:object="${xxx}"
+	                   只要你项目下有文件xxx.java，里面对应class xxx类，那么他就会自己找到，Model有设置的话Model优先级高
+	                   注意：他内部错误保存的key应该是类型，不是变量名，如：@Valid xxx xxxx时
+	                                 可能内部保存着  xxx：错误信息 同时可找到内部为xxx类型的xxxx
+	             xxxx保存着当前上传的值
+             
              model.addAttribute("xxxx", new xx());  这里为key为xxxx,值为:xx类（类型）
                                   错误查找时找内部有没有xx类对应的错误信息,但由于@Valid xxx xxxx,
                                   错误信息设置在xxx那里，就会找不到
@@ -33,38 +51,42 @@ sprint boot里可能发生的事
                    参考： Form.java
                    
 使用：   @ConfigurationProperties注解
-                  主要用来把properties配置文件转化为bean来使用的
-                 而@EnableConfigurationProperties注解的作用是@ConfigurationProperties注解生效。
-                 如果只配置@ConfigurationProperties注解，在IOC容器中是获取不到properties配置文件转化的bean的。
-                  并且也没有注入把当前类注入到bean里
-	       所以得配置@EnableConfigurationProperties并对应@ConfigurationProperties类
-	       好像只能对应一个
-                  参考： StorageProperties.java 与  xiaoben.java
+		                 主要用来把properties配置文件转化为bean来使用的
+		                 而@EnableConfigurationProperties注解的作用是@ConfigurationProperties注解生效。
+		                 如果只配置@ConfigurationProperties注解，在IOC容器中是获取不到properties配置文件转化的bean的。
+		                  并且也没有注入把当前类注入到bean里
+			       所以得配置@EnableConfigurationProperties并对应@ConfigurationProperties类
+			       好像只能对应一个
+		                  参考： StorageProperties.java 与  xiaoben.java
 
           
 使用:  @Configuration
-	          用于定义配置类，可替换xml配置文件，
-	         被注解的类内部包含有一个或多个被@Bean注解的方法，
-	          这些方法将会被AnnotationConfigApplicationContext或AnnotationConfigWebApplicationContext类进行扫描，
-	          并用于构建bean定义，初始化Spring容器。
+		          用于定义配置类，可替换xml配置文件，
+		         被注解的类内部包含有一个或多个被@Bean注解的方法，
+		          这些方法将会被AnnotationConfigApplicationContext或AnnotationConfigWebApplicationContext类进行扫描，
+		          并用于构建bean定义，初始化Spring容器。
 	         
 使用:  @Bean    
-                 这个是属于@Configuration上下文当中的，也就是依赖@Configuration
+                               这个是属于@Configuration上下文当中的，也就是依赖@Configuration
 
 使用：    @Service
-                   把当前类注入到Bean里 ，比@Configuration @Bean这样配置的少了可以先配置，在实例化当前类
-                    参考：twoApp.java
+	                   把当前类（只是实例化了）注入到Bean里 ，比@Configuration @Bean这样配置的少了可以先配置，在实例化当前类,或者实例化后配置
+	                    参考：xiaoben.java 和  uploadFile里的  FileSystemStorageService.java
 	          
 使用:  @Autowired 
-                    并声明   private Logger xxx(变量名)    
-                    扫描时会把 xxx = Bean Logger类型的方法
-                    也就是会找到注入到Bean里的方法
-                   好像你在application.properties配置后 
-                   同样可以使用 @Autowired注解来找到并赋给想使用的变量         可以参考thymeleafModeljdbc.java
+	                    并声明   private Logger xxx(变量名)    
+	                    扫描时会把 xxx = Bean Logger类型的方法
+	                    也就是会找到注入到Bean里的方法
+	                   好像你在application.properties配置后 
+	                   同样可以使用 @Autowired注解来找到并赋给想使用的变量         可以参考thymeleafModeljdbc.java
                   
                     
 --------------------------------------------------
 
+想使用        springBoot返回字符串对象给前端并可以使用JSON.parse处理时        
+		 可以直接返回一个类，我们打印或输出一个类时都会使用该类里的toString()方法
+		 所以我们可以(重写该方法)在该方法里处理返回。可以参考: App.java里的ceshi5路由
+ 
 想使用类似与  js的{}时
 		 Map<String, Object> student = new HashMap<String, Object>(){{
 			            put("sid", "101");
@@ -106,3 +128,12 @@ sprint boot里可能发生的事
 		            //上面打印thymeleafModel类里面的方法名 类型                                                                                                                                            
 		        }                                                       }
 
+java里的异步
+        当我们使用方法里使用Thread.sleep(xxxL);是让该进程睡眠，并不是异步，并不会去执行其他方法
+       只有通过new Thread去开启一个线程.并.start执行该线程管理的类的run方法,这个就不会等待里面的睡眠
+   new Thread(需要管理的类，可传递给管理类的值);
+       注意:    管理的类必须得是继承Thread类的类
+   
+       会先去执行其他方法
+       也就是使用睡眠方法是在整个程序一起睡眠，并不是让使用睡眠的睡眠，然后去执行其他方法，new Thread就相反
+       睡眠的使用可以参考 ： asyncThreadSleepCeshi.java

@@ -28,18 +28,21 @@ public class Form implements WebMvcConfigurer {
     	//model.addAttribute("validForm", new PersonForm());
         return "one/form";
     }
-
-    @PostMapping("")
+  
+    @PostMapping("")   
     public String checkPersonInfo(@Valid ValidForm personForm, BindingResult bindingResult, Model model) {
     	
     	//model.addAttribute("validForm", new PersonForm());
+    	model.addAttribute("greeting", personForm);
+    	System.out.println(personForm.getName());
+    	System.out.println(personForm.getAge());
         if (bindingResult.hasErrors()) {
         	//System.out.println(bindingResult.getAllErrors());
           //  System.out.println(personForm);
         	
             return "one/form";
         }
-
-        return "redirect:/results";
+        //return "redirect:/results";
+        return "one/formResult";
     }
 }

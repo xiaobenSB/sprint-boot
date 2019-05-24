@@ -42,7 +42,7 @@ public class FileSystemStorageService implements StorageService {
             }
             try (InputStream inputStream = file.getInputStream()) {
                 Files.copy(inputStream, this.rootLocation.resolve(filename),
-                    StandardCopyOption.REPLACE_EXISTING);
+                    StandardCopyOption.REPLACE_EXISTING);  //StandardCopyOption.REPLACE_EXISTING 代表如果现有文件存在，则替换该文件。
             }
         }
         catch (IOException e) {
@@ -89,7 +89,9 @@ public class FileSystemStorageService implements StorageService {
 
     @Override
     public void deleteAll() {
-        FileSystemUtils.deleteRecursively(rootLocation.toFile());
+    	//System.out.println(rootLocation.toFile());
+        FileSystemUtils.deleteRecursively(rootLocation.toFile());    //这个方法可以删除指定文件夹或文件里的所有
+        //如:  为"E:\\upload-dir"时,upload-dir都会删除
     }
 
     @Override
