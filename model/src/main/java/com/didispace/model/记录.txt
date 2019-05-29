@@ -6,6 +6,21 @@ sprint boot里可能发生的事
 		         必须创建 相关的九张表
 		         创建表的脚本链接：https://www.cnblogs.com/sailormoon/p/7170812.html
 
+使用    @ExceptionHandler(xxx.class)为捕获xxx.class里的所有异常
+                               也就是xxx.class如果有异常抛出，那么就会捕获到
+                               参考：uploadFile里的FileUploadController.java类的最后一个方法
+            
+使用     @Validated为校验注解
+                               在定义类的上面使用，可以校验类里的方法
+                               参考链接：https://www.cnblogs.com/cjsblog/p/8946768.html
+
+使用      @Transactional
+                               数据库引擎要支持事务，如果是MySQL，注意表要使用支持事务的引擎，比如(表类型)innodb，如果是myisam，事务是不起作用的
+                               使用该注解的方法具有mysql的事务功能
+                               如果注解的方法（在其他地方（不是它的兄弟或自己））被引用时，如果引用的时候抛出错误，那么就会回滚（也就是之前的数据库操作取消了）
+                               注意：被注解的 方法不能在里面用try catch错误捕捉(除非抛出错误，不然不回滚的)             
+                                参考：transaction里的java文件      
+
 使用       @Override
                               代表下面的方法是重写的（如使用继承时，继承的类里的方法和被继承里的方法同名，但被继承的类还是原来的处理方式）
                               一个类继承一个类时，代表继承的类里有两种类型，一种是本身类型和被继承类的类型
@@ -18,20 +33,20 @@ sprint boot里可能发生的事
 使用       @Component时
                                 也是注入bean里的一种方式
 
-使用:  @SpringBootApplication
+使用:      @SpringBootApplication
 		           等同使用了       @Configuration
 					    @EnableAutoConfiguration
 					    @Import
 			    
-使用:  @RestController   
+使用:       @RestController   
 	                     路由对应的方法返回的是字符串（spring会 把方法返回的转成字符串返回给浏览器）
 	                    可以参考 App.java 
                        
-使用:  @Controller   
+使用:       @Controller   
 	                    路由对应的方法返回的是静态目录文件（spring会 把方法返回的转成静态目录路径，然后找到文件，并在浏览器渲染该文件）
 	                    可以参考 thymeleafModel.java
                     
-使用:  @Controller后，（使用表单验证时）
+使用:       @Controller后，（使用表单验证时）
 	                    你可以不用使用Model来渲染数据到页面，由于你在页面里使用th:object="${xxx}"
 	                   只要你项目下有文件xxx.java，里面对应class xxx类，那么他就会自己找到，Model有设置的话Model优先级高
 	                   注意：他内部错误保存的key应该是类型，不是变量名，如：@Valid xxx xxxx时
@@ -60,7 +75,7 @@ sprint boot里可能发生的事
 		                  参考： StorageProperties.java 与  xiaoben.java
 
           
-使用:  @Configuration
+使用:       @Configuration
 		          用于定义配置类，可替换xml配置文件，
 		         被注解的类内部包含有一个或多个被@Bean注解的方法，
 		          这些方法将会被AnnotationConfigApplicationContext或AnnotationConfigWebApplicationContext类进行扫描，
@@ -69,7 +84,7 @@ sprint boot里可能发生的事
 		                     里面可以再使用@Bean把其他类注入到bean里
 		                     参考：web下的twoApp.java和项目下的xiaoben.java
 	         
-使用:  @Bean    
+使用:        @Bean    
                                这个是属于@Configuration上下文当中的，也就是依赖@Configuration
                                使用该注解的必须有类型，也就是不能在public void xxx上使用
 
@@ -77,7 +92,7 @@ sprint boot里可能发生的事
 	                   把当前类（只是实例化了）注入到Bean里 ，比@Configuration @Bean这样配置的少了可以先配置，在实例化当前类,或者实例化后配置
 	                    参考：xiaoben.java 和  uploadFile里的  FileSystemStorageService.java
 	          
-使用:  @Autowired 
+使用       :  @Autowired 
 	                    并声明   private Logger xxx(变量名)    
 	                    扫描时会把 xxx = Bean Logger类型的方法
 	                    也就是会找到注入到Bean里的方法
@@ -88,8 +103,12 @@ sprint boot里可能发生的事
 --------------------------------------------------
 
 想使用        springBoot返回字符串对象给前端并可以使用JSON.parse处理时        
-		 可以直接返回一个类，我们打印或输出一个类时都会使用该类里的toString()方法
-		 所以我们可以(重写该方法)在该方法里处理返回。可以参考: App.java里的ceshi5路由
+		 可以直接返回一个类 因为可以配合 @RestController注解
+		（只限private，public声明的变量名就不用）
+		 因为springboot会调用类里（变量，不是方法）的  get+变量名来返回值，再组成键（变量名）对应值（变量名对应值）的一个对象 
+		 注意：
+		                变量名没有对应的get（set）方法话，返回的对象就会没有该变量名的键
+		 可以参考: App.java里的ceshi5路由
  
 想使用类似与  js的{}时
 		 Map<String, Object> student = new HashMap<String, Object>(){{

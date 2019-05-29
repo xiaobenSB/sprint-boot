@@ -1,8 +1,9 @@
 package com.didispace.model;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
-
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,12 +72,18 @@ public class HttpRequest {
 		 *  post请求并携带参数
 		 * */
 		String url = "http://127.0.0.1:3000/index";
+		List<Map<String,String>> array = new ArrayList<Map<String,String>>();
+		
 		Map<String,String> msgJson = new HashMap<String,String>(){{
 			   put("sid", "101");
+			   put("xiaoming","xiaoben");
+			   put("我","你");
+			   put("它","他");
+		       put("公司","大山科技");
 		}};
-		
+		array.add(msgJson);
 				
-		String json = this.restTemplate.postForObject(url,msgJson,String.class);
+		String json = this.restTemplate.postForObject(url,array,String.class);
 		System.out.println(json);
 		return 1;
 	

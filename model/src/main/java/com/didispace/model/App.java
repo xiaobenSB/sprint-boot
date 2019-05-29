@@ -6,9 +6,15 @@ import com.didispace.model.async.asyncUser;
 import com.didispace.model.cache.cacheBook;
 import com.didispace.model.cache.cacheSimpleBookRepository;
 import com.didispace.model.web.threeApp;
+import com.didispace.model.transaction.transactionBookingService;
+import com.didispace.model.web.JSON;
+import com.didispace.model.mysql.ebStoreProduct;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -26,6 +32,7 @@ import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
 /**
  * Hello world!
@@ -69,6 +76,9 @@ public class App {
 	return "Hello Worldw!";
 	}
 	
+	/*
+	 *           Bean获取
+	 * */
 	@RequestMapping("/bean")
 	public Object  bean(HttpServletRequest request,HttpSession session) {
 	    return  new bean().getBean("testDemo");
@@ -82,6 +92,9 @@ public class App {
 	    return  twoapp.a();
 	}
 	
+	/*
+	   *                      跨域设置和获取请求头和get挈带值
+	 * */
 	@Autowired  
     private threeApp threeapp;
 	@CrossOrigin(origins = "https://www.runoob.com")    //跨域设置     * 代表所有
@@ -115,6 +128,9 @@ public class App {
 	    return  threeapp.a();
 	}
 	
+	/*
+	   *                      异步测试
+	 * */
 	@Autowired 
 	private asyncGitHubLookupService asyncGitHubLookupService;
 	@RequestMapping("/ceshi3")
@@ -153,6 +169,9 @@ public class App {
 		return "异步使用";
 	}
 	
+	/*
+	 *             springBatch任务管理
+	 * */
 	@Autowired
     JobLauncher jobLauncher;
 	@Autowired
@@ -169,11 +188,14 @@ public class App {
 		return "启动soringBatch 任务管理";
 	}
 	
+	/*
+	   *                      缓存测试
+	 * */
 	private static final Logger logger = LoggerFactory.getLogger(App.class);
 	@Autowired
 	cacheSimpleBookRepository bookRepository;
 	@CrossOrigin(origins = "*")
-	@RequestMapping("ceshi5")
+	@RequestMapping("/ceshi5")
 	public cacheBook ceshiFive() {
 		logger.info(".... Fetching books");
         logger.info("isbn-1234 -->" + bookRepository.getByIsbn("isbn-1234"));
@@ -183,6 +205,97 @@ public class App {
         logger.info("isbn-1234 -->" + bookRepository.getByIsbn("isbn-1234"));
         logger.info("isbn-1234 -->" + bookRepository.getByIsbn("isbn-1234"));
 		return bookRepository.getByIsbn("isbn-1234"); 
+	}
+	
+	/*
+	   *                      缓存更新
+	 * */
+	@CrossOrigin(origins = "*")
+	@RequestMapping("/ceshi5Two")
+	public cacheBook ceshiFiveTwo() {
+		logger.info(".... Fetching books");
+        logger.info("isbn-1234 -->" + bookRepository.getByIsbn("isbn-1234"));
+        logger.info("isbn-4567 -->" + bookRepository.getByIsbn("isbn-4567"));
+        logger.info("isbn-1234 -->" + bookRepository.getByIsbn("isbn-1234"));
+        logger.info("isbn-4567 -->" + bookRepository.getByIsbn("isbn-4567"));
+        logger.info("isbn-1234 -->" + bookRepository.getByIsbn("isbn-1234"));
+        logger.info("isbn-1234 -->" + bookRepository.getByIsbn("isbn-1234"));
+		return bookRepository.getByIsbnTwo("isbn-1234"); 
+	}
+	
+	/*
+	 *          mysql事务测试
+	 * */
+	@Autowired
+	transactionBookingService transactionBookingService;
+	@RequestMapping("/ceshi6")
+	public String ceshiSix() {
+		
+		//第一次插入三条数据成功
+        transactionBookingService.book("Alice", "Bob", "Carol");
+       logger.info("Alice, Bob and Carol have been booked");
+       
+        //第二次插入两条数据时，由于我们数据库字段长度限制为5，Samuel为6了就会报错，然后进行回滚
+        try {
+        	transactionBookingService.book("Chris", "Samuel");
+        } catch (RuntimeException e) {
+            logger.info("v--- The following exception is expect because 'Samuel' is too " +
+                    "big for the DB ---v");
+            logger.error(e.getMessage());
+        }
+        for (String person : transactionBookingService.findAllBookings()) {
+            logger.info("So far, " + person + " is booked.");
+        }
+        logger.info("You shouldn't see Chris or Samuel. Samuel violated DB constraints, " +
+                "and Chris was rolled back in the same TX");
+
+        //第三次插入两条数据时，由于我们数据库字段设置不能为空，这里为null了就会报错，然后进行回滚
+        try {
+        	transactionBookingService.book("Buddy", null);
+        } catch (RuntimeException e) {
+            logger.info("v--- The following exception is expect because null is not " +
+                    "valid for the DB ---v");
+            logger.error(e.getMessage());
+        }
+        for (String person : transactionBookingService.findAllBookings()) {
+            logger.info("So far, " + person + " is booked.");
+        }
+        logger.info("You shouldn't see Buddy or null. null violated DB constraints, and " +
+                "Buddy was rolled back in the same TX");
+        
+        
+		return "mysql事务测试";
+	}
+	
+	@Autowired
+	private ebStoreProduct ebStoreProduct;
+	@RequestMapping("/ceshi7")
+	@CrossOrigin(origins = "*")
+	public List<Map<String, Object>> ceshiSeven(HttpServletRequest request,HttpServletResponse response) {
+		
+		String sql = "select * from eb_store_productss";   	    
+	    try{
+	    	//return ebStoreProduct.select(sql);
+	    	int msg = ebStoreProduct.insert("xiaob");
+	    	List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+								      list.add(new HashMap<String,Object>() {{
+								    		put("status","200");
+								    		put("msg",msg);
+								    	}});
+		    response.setStatus(500);
+	    	return list;
+	  
+	    }catch(Exception e) {
+	    	List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+								      list.add(new HashMap<String,Object>() {{
+								    		put("status","500");
+								    		put("msg",e.getMessage());
+								    	}});
+			response.setStatus(500);
+	    	return list;
+	    }
+	    
+	   //return new JSON("xiaoming","xiaoben","wwwww");
 	}
 
 }

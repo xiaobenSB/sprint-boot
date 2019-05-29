@@ -4,10 +4,12 @@ public class cacheBook {
 
     private String isbn;
     private String title;
-
-    public cacheBook(String isbn, String title) {
+    public String concent;
+    
+    public cacheBook(String isbn, String title,String concent) {
         this.isbn = isbn;
         this.title = title;
+        this.concent = concent;
     }
 
     public String getIsbn() {
@@ -28,6 +30,6 @@ public class cacheBook {
 
     @Override
     public String toString() {
-        return "Book{" + "isbn='" + isbn + '\'' + ", title='" + title + '\'' + '}';
+        return "Book{" + "isbna='" + isbn + '\'' + ", titlew='" + title + '\'' + ", content='" + concent + '\'' +  '}';
     }
 }

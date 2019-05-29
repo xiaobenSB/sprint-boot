@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>菜鸟教程(runoob.com)</title>
+<style type="text/css">
+        table {
+            border: 1px solid black;
+            text-align: center;
+            border-collapse: collapse;
+        }
+        table thead th {
+            border: 1px solid black;
+        }
+        table tbody td {
+            border: 1px solid black;
+        }
+    </style>
+
+<body>
+
+<h6>Thymeleaf 模板测试</h6>
+
+<table cellpadding="0" cellspacing="0" th:if="${storeProduct}">
+  <thead>
+            <th>id</th>
+            <th>store_name</th>
+            <th>store_info</th>
+            <th>price</th>
+            <th>image</th>
+  </thead>
+  <tbody>
+      <tr th:each="user,userStat:${storeProduct}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.store_name}"></td>
+        <td th:text="${user.store_info}"></td>
+        <td th:text="${user.price}"></td>
+        <td th:text="${user.image}"></td>
+      </tr>
+  </tbody>
+</table>
+
+<p th:unless="${storeProduct}"> 数据加载失败  </p>
+
+</body>
+</html>
