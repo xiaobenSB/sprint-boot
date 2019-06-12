@@ -30,6 +30,7 @@ public class web_index {
 	
 	 @GetMapping("form")
 	    public String getForm(web_index_module_ValidForm validForm) {
+		//   model.addAttribute("web_index_module_Vaorm", validForm);
 		  // System.out.println(ClassUtils.getDefaultClassLoader().getResource("").getPath());
 		   return "web/index/form"; 
 	    }
@@ -38,9 +39,10 @@ public class web_index {
 	    public String postForm(@Valid web_index_module_ValidForm personForm, BindingResult bindingResult, Model model) {
 	    	
 	    	//model.addAttribute("validForm", new PersonForm());
-	    	model.addAttribute("greeting", personForm);
+	    	/*model.addAttribute("greeting", personForm);
+
 	    	System.out.println(personForm.getName());
-	    	System.out.println(personForm.getAge());
+	    	System.out.println(personForm.getAge());*/
 	        if (bindingResult.hasErrors()) {
 	        	//System.out.println(bindingResult.getAllErrors());
 	          //  System.out.println(personForm);

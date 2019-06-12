@@ -10,6 +10,7 @@ import com.didispace.model.transaction.transactionBookingService;
 import com.didispace.model.web.JSON;
 import com.didispace.model.mysql.ebStoreProduct;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
@@ -40,10 +41,86 @@ import org.springframework.web.bind.annotation.CrossOrigin;
  */
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+
+//支付宝sdk
+
+import com.alipay.api.AlipayClient;
+import com.alipay.api.DefaultAlipayClient;
+import com.alipay.api.AlipayApiException;
+import com.alipay.api.response.AlipayTradeWapPayResponse;
+import com.alipay.api.request.AlipayTradeWapPayRequest;
+import com.alipay.api.domain.AlipayTradeWapPayModel;
+import com.alipay.api.domain.AlipayTradeCreateModel;
+
 @RestController   //路由对应的方法返回的是字符串（spring会 把方法返回的转成字符串）
 
 public class App {
+    
+	@RequestMapping("/hello")
+	String hello(HttpServletRequest request,HttpServletResponse response) throws IOException {
+		String out_trade_no = "11233444838338";
+		// 订单名称，必填
+	    String subject = "小明";
+		System.out.println(subject);
+	    // 付款金额，必填
+	    String total_amount= "100";
+	    // 商品描述，可空
+	    String body = "";
+	    // 超时时间 可空
+	   String timeout_express="2m";
+	    // 销售产品码 必填
+	    String product_code="QUICK_WAP_WAY";
+	    /**********************/
+	    // SDK 公共请求类，包含公共请求参数，以及封装了签名与验签，开发者无需关注签名与验签     
+	    //调用RSA签名方式
+	    
+	    //下面str是拿E:\web\php\public\5cd24539c1663.pem  的数据（私钥pkcs8格式）  不是私钥pkcs8格式数据的话 ，会报出DER input, Integer tag error 或 Detect premature EOF等错误   
+	    String str = "MIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDsPewrnrdfw3QQFF3Bg/X7MrZtQuNhiMSk3rx/Jq/mguOW1jnt5lSEG2VFhesT/QHyMPgasIHrlPrQD4PGhCdGkXbs4oQLoUTqAwkyJpocr5CwiKzrmLc2p3qqg2E5hanv0WMqFzJ3RuNoeST1vB52xJdgkrPz8Rslo8o1UNj0SW/bj0QU3UskF2V+qmD8jjAcnX7wsFU4fufUPFkX2aOOE4oV/W/rPoXfas4ChM4KjD6lN92QkCeZYpr9rkzThSkm9X+H2sF8qNcebdEGJ/gpHIMCbtlNjkEJJhRFC03zapOB261qOuEftzrtTv6zcqPlYkWPy459nbOLvtjJELFlAgMBAAECggEBAK/fsbEPqgjbI87MurfUnA30xSc2gr0b6vmq8L3geVes3e5vchUQQp9PHefSOR5aX1aE6lBEU5SlBsxaoInr3KmGpfjY8eEOoJVuySvS3Sy574fdWI7U1KEVsha7VGhUgB0PzzmIp4Nw/N/MQJ3I/Q0Ccofs75eOSd2NwH5MwBesHhzlYGvwUgIZkk4IW6twk9aP48+Zc7bjzs/V0nr1wO9Y8yzwAWCWWyXCn2hzi+36DTTyajcXVq0hMRZFP23gk1vhViu1Fd6CmYII1il7EG9NFURSBtOP+EOWmzlkdRePqbWh7fisw0bSLw/OphFMMxwbZpWXpFJLj12zIuDZZQkCgYEA+6JKvLY51ubBH9P9N8sciCvzja8a13k8E2sTUaXfCSz53XaiA4FhtnNTbEoo6QeBO6mXtaLdbI8kGNJ7/Vt6gRqLhQ6b5efyIzUYQ1U4xh33XEtgf1UcTksnMT4VwYeXDFM+bt2cvtmx+whLdpkajJhfKNds/rT4gSjXb8H5+4sCgYEA8FdDGD4Hpo5PgFyI8qWJi0ZurlwjNIS9ILmFByW1J5SFcciSOKTMSJ3FWtdKRfJxEdOdONjsJ55V5frD4lYdWaVRVp2UWqzg+OqXdwh1PuWO7WPE7gLHCLq027PRN0XtvDuTf14FTNmEDyPE54ZTUxqw43BhMjLzHb+lmYKEZM8CgYEAp+OaVdqHMLj5NZEtK6KawMgCUg/4qrc6vAH++8Td0LNvarGSWyBh32eGy4OXVBMryHDYxdmKProqbV1SWLJGRAk/+WDL51MgHRl5vMMJhDXOKogoNAzHO/2sgpBX163tu812pGW8BSIeO81G/DQeoJuxMgC5uh9ohlSHmQslDQ0CgYEAuFaVtZBOGedo/tD6kPF6j4JT/hPZRLzSurjQWW0IhvUZbO4jiKKNtNydtFEQPJn5M20VV7a5WqHMzHoLqBvYoxtzSXXPhcS3QPPdfITWOImlmFo/fzZOJlndwe0neLd/4jHnrXcVpZ3n9hy/N70FR+Ze6fMV+YSuh5ComRdMKG0CgYAOoYN9xZcLI8glaA1BEsJiO2DiPC+szQUOxFzC09rZqcacK8aZnWk5tOKZYig8MNgTbaAe8EuwtqhwAQpZwQv1k0KJVWEOZW66uxAbPhw5Ee4YwkeyiaO6N1ls2OguLMDlY7tgu/syxGYQypu5EQ2BlM/KuAzD/pVU1TysnZzMVA==";
 
+	    
+	    AlipayClient client = new DefaultAlipayClient("https://openapi.alipay.com/gateway.do", "425111044", str, "json", "UTF-8", "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjrEVFMOSiNJXaRNKicQuQdsREraftDA9Tua3WNZwcpeXeh8Wrt+V9JilLqSa7N7sVqwpvv8zWChgXhX/A96hEg97Oxe6GKUmzaZRNh0cZZ88vpkn5tlgL4mH/dhSr3Ip00kvM4rHq9PwuT4k7z1DpZAf1eghK8Q5BgxL88d0X07m9X96Ijd0yMkXArzD7jg+noqfbztEKoH3kPMRJC2w4ByVdweWUT2PwrlATpZZtYLmtDvUKG/sOkNAIKEMg3Rut1oKWpjyYanzDgS7Cg3awr1KPTl9rHCazk15aNYowmYtVabKwbGVToCAGK+qQ1gT3ELhkGnf3+h53fukNqRH+wIDAQAB","RSA2");
+	    AlipayTradeWapPayRequest alipay_request=new AlipayTradeWapPayRequest();
+	    
+	    // 封装请求支付信息
+	    AlipayTradeWapPayModel model=new AlipayTradeWapPayModel();
+	    model.setOutTradeNo(out_trade_no);
+	    model.setSubject(subject);
+	    model.setTotalAmount(total_amount);
+	    model.setBody(body);
+	    model.setTimeoutExpress(timeout_express);
+	    model.setProductCode(product_code);
+	    alipay_request.setBizModel(model);
+	    
+	    // 设置异步通知地址
+	    alipay_request.setNotifyUrl("http://127.0.0.1:8000/testssssss");
+	    // 设置同步地址
+	    alipay_request.setReturnUrl("http://127.0.0.1:8000/testssssss");   
+	    
+	    // form表单生产
+	    String form = "";
+		try {
+			// 调用SDK生成表单
+			
+			form = client.pageExecute(alipay_request).getBody();
+			System.out.println(form);
+			response.setContentType("text/html;charset=UTF-8");
+			
+			return form;  //会自己发送请求
+		} catch (AlipayApiException e) {
+			// TODO Auto-generated catch block
+			System.out.println("311333311111111111");
+			e.printStackTrace();
+			return e.getMessage();
+		} 
+	}
+	
+	@RequestMapping("/testssssss")
+	String testssssss() {
+		System.out.println("111111111111111111111111111");
+		return "wwwww";
+	}
+	
 	@RequestMapping("/test")
 	String home(HttpServletRequest request,HttpSession session) {
 		
@@ -73,7 +150,7 @@ public class App {
 	
 	}
 
-	return "Hello Worldw!";
+	return "Hello Worldw2!";
 	}
 	
 	/*

@@ -77,4 +77,19 @@
 	       <artifactId>spring-boot-starter-jdbc</artifactId>
 	   </dependency>
   </dependencies>
+  
+  <!-- 打包项目 -->
+  <packaging>jar</packaging>  
+  <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>helloWorld.Application</mainClass>
+                    <encoding>utf8</encoding> 
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

@@ -19,9 +19,9 @@ public class beanConfig {
 	  public RestTemplate restTemplate() {
 		    System.out.println("---------------------------------------------------------------------");
 
-	        System.out.println("========RestTemplateÀàÐÍÅäÖÃµ½bean¿ÉÒÔÏÞ¶¨ÎªÊ¹ÓÃautowireºó£¬½Ó×ÅÉùÃ÷RestTemplateÀàÐÍ±äÁ¿ºòÑ¡========");
+	        System.out.println("========RestTemplateç±»åž‹é…ç½®åˆ°beanå¯ä»¥é™å®šä¸ºä½¿ç”¨autowireåŽï¼ŒæŽ¥ç€å£°æ˜ŽRestTemplateç±»åž‹å˜é‡å€™é€‰========");
 
-	        System.out.println("-----------------------¿ÉÔÚHttpRequest.javaÀïµÄhttpGet·½·¨²âÊÔ----------------------------------------------");
+	        System.out.println("-----------------------å¯åœ¨HttpRequest.javaé‡Œçš„httpGetæ–¹æ³•æµ‹è¯•----------------------------------------------");
 	        
 	        HttpComponentsClientHttpRequestFactory httpRequestFactory = new HttpComponentsClientHttpRequestFactory();
 	        httpRequestFactory.setConnectionRequestTimeout(30 * 1000);
@@ -32,8 +32,8 @@ public class beanConfig {
 	
 	/*@Bean
     CommandLineRunner init(StorageService storageService){   
-		System.out.println("-------------------³õÊ¼»¯ÉÏ´«Ä¿Â¼-------------------------");
-		//ÉÏ´«ÎÄ¼þ³õÊ¼»¯
+		System.out.println("-------------------åˆå§‹åŒ–ä¸Šä¼ ç›®å½•-------------------------");
+		//ä¸Šä¼ æ–‡ä»¶åˆå§‹åŒ–
         return (args) -> {
             storageService.deleteAll();
         };

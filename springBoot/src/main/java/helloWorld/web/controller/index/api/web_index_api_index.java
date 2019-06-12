@@ -27,7 +27,7 @@ public class web_index_api_index {
 	    private transactionBookingService transactionBookingService;
 	
 	 @GetMapping(value = "index")
-		public String httpGetTwo(@NotBlank(message = "uid不能为空并且为String类型") @Pattern(regexp = "(^\\d{15}$)|(^\\d{18}$)|(^\\d{17}(\\d|X|x)$)", message = "uid格式为身份证") String uid,@NotBlank(message = "名字不能为空并且为String类型") String name) {
+		public String httpGetTwo(@NotBlank(message = "uid涓嶈兘涓虹┖骞朵笖涓篠tring绫诲瀷") @Pattern(regexp = "(^\\d{15}$)|(^\\d{18}$)|(^\\d{17}(\\d|X|x)$)", message = "uid鏍煎紡涓鸿韩浠借瘉") String uid,@NotBlank(message = "鍚嶅瓧涓嶈兘涓虹┖骞朵笖涓篠tring绫诲瀷") String name) {
 			String url = "https://story.hhui.top/detail?id=666106231640";
 			String json = restTemplate.getForObject(url, String.class);
 			return json;
@@ -37,11 +37,11 @@ public class web_index_api_index {
 	    public String getTransaction() {
 		    try {
 		    	transactionBookingService.book("xiao","ming","ben");
-		    	System.out.println("往bookings表插入xiao,ming,ben数据成功");
+		    	System.out.println("寰�bookings琛ㄦ彃鍏iao,ming,ben鏁版嵁鎴愬姛");
 		    	
 		    	transactionBookingService.book("xiao","hong","ben");
-		    	System.out.println("往bookings表插入xiao,hong,ben数据成功");
-		    	return "mysql事务测试成功";
+		    	System.out.println("寰�bookings琛ㄦ彃鍏iao,hong,ben鏁版嵁鎴愬姛");
+		    	return "mysql浜嬪姟娴嬭瘯鎴愬姛";
 		    }catch(Exception e) {
 		    	return e.getMessage();
 		    }

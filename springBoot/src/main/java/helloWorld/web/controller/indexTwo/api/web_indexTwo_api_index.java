@@ -20,7 +20,7 @@ public class web_indexTwo_api_index {
 	web_indexTwo_module_cache_cacheSimpleBookRepository bookRepository;
   
 	/*
-	   *                      »º´æ²âÊÔ
+	   *                      ç¼“å­˜æµ‹è¯•
 	 * */
 	@CrossOrigin(origins = "*")
 	@RequestMapping("/ceshi5")
@@ -36,7 +36,7 @@ public class web_indexTwo_api_index {
 	}
 	
 	/*
-	   *                      »º´æ¸üÐÂ
+	   *                      ç¼“å­˜æ›´æ–°
 	 * */
 	@CrossOrigin(origins = "*")
 	@RequestMapping("/ceshi5Two")
@@ -52,7 +52,7 @@ public class web_indexTwo_api_index {
 	}
 	
 	/*
-	   *                      »º´æ²âÊÔ
+	   *                      ç¼“å­˜æµ‹è¯•
 	 * */
 	@CrossOrigin(origins = "*")
 	@RequestMapping("/ceshi6")
@@ -68,7 +68,7 @@ public class web_indexTwo_api_index {
 	}
 	
 	/*
-	   *                      »º´æ¸üÐÂ
+	   *                      ç¼“å­˜æ›´æ–°
 	 * */
 	@CrossOrigin(origins = "*")
 	@RequestMapping("/ceshi6Two")

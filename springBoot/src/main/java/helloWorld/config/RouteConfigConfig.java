@@ -16,20 +16,20 @@ public class RouteConfigConfig implements HandlerInterceptor {
 
           PrintWriter out = null ;
           out = response.getWriter();
-          out.write("123456Ğ¡±¾");
+          out.write("123456å°æœ¬");
           out.flush();
           out.close();*/
     	
-    	  //response.sendRedirect("/404.html"); ÖØ¶¨Ïò
+    	  //response.sendRedirect("/404.html"); é‡å®šå‘
     	
-    	  System.out.println("À¹½ØËùÓĞµÄÇëÇó");
+    	  System.out.println("æ‹¦æˆªæ‰€æœ‰çš„è¯·æ±‚");
           return true;
 
     }
  
 
     public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {
-    	System.out.println("µ±À¹½Ø·µ»ØtrueÊ±,½Ó×Å´¦Àí¶ÔÓ¦Â·ÓÉÀïµÄ£¨ÎÒÃÇ£©ÉèÖÃ£¬´¦ÀíÍêºó´¥·¢ÕâÀï");
+    	System.out.println("å½“æ‹¦æˆªè¿”å›trueæ—¶,æ¥ç€å¤„ç†å¯¹åº”è·¯ç”±é‡Œçš„ï¼ˆæˆ‘ä»¬ï¼‰è®¾ç½®ï¼Œå¤„ç†å®Œåè§¦å‘è¿™é‡Œ");
     }
  
 

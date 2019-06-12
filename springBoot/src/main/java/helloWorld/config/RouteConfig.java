@@ -8,32 +8,32 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 
 /**
- * ºÍspringmvcµÄwebmvcÀ¹½ØÅäÖÃÒ»Ñù
+ * å’Œspringmvcçš„webmvcæ‹¦æˆªé…ç½®ä¸€æ ·
  * @author BIANP
  */
 @Configuration
 public class RouteConfig implements WebMvcConfigurer {
 	
    public void addInterceptors(InterceptorRegistry registry) {
-        // À¹½ØËùÓĞÇëÇó£¬Í¨¹ıÅĞ¶ÏÊÇ·ñÓĞ @LoginRequired ×¢½â ¾ö¶¨ÊÇ·ñĞèÒªµÇÂ¼	 
-		//excludePathPatternsÊÇÉèÖÃ²»ĞèÒªÀ¹½ØÄÄ¸öÂ·ÓÉÇëÇó
-		//addPathPatternsÊÇÉèÖÃÀ¹½ØÄÄ¸öÂ·ÓÉÇëÇó
-		System.out.println("Â·ÓÉ´¦ÀíÓÅÏÈ¼¶ÎªµÚÒ»");
-		System.out.println("-----------À¹½ØÂ·ÓÉÅäÖÃ,ËùÓĞµÄÇëÇó¶¼µÃÍ¨¹ı¸ÃÅäÖÃ²ÅÄÜÊÍ·Å----------");
+        // æ‹¦æˆªæ‰€æœ‰è¯·æ±‚ï¼Œé€šè¿‡åˆ¤æ–­æ˜¯å¦æœ‰ @LoginRequired æ³¨è§£ å†³å®šæ˜¯å¦éœ€è¦ç™»å½•	 
+		//excludePathPatternsæ˜¯è®¾ç½®ä¸éœ€è¦æ‹¦æˆªå“ªä¸ªè·¯ç”±è¯·æ±‚
+		//addPathPatternsæ˜¯è®¾ç½®æ‹¦æˆªå“ªä¸ªè·¯ç”±è¯·æ±‚
+		System.out.println("è·¯ç”±å¤„ç†ä¼˜å…ˆçº§ä¸ºç¬¬ä¸€");
+		System.out.println("-----------æ‹¦æˆªè·¯ç”±é…ç½®,æ‰€æœ‰çš„è¯·æ±‚éƒ½å¾—é€šè¿‡è¯¥é…ç½®æ‰èƒ½é‡Šæ”¾----------");
         registry.addInterceptor(new RouteConfigConfig()).addPathPatterns("/**").excludePathPatterns("/test","/404.html","/public/**");
 	 }
    
    public void addViewControllers(ViewControllerRegistry registry) {  
-	   System.out.println("Â·ÓÉ´¦ÀíÓÅÏÈ¼¶ÎªµÚ¶ş");
-   	   System.out.println("---------------ÅäÖÃÇëÇóÂ·ÓÉµÄ¶ÔÓ¦Ê±·µ»ØÏîÄ¿ÏÂµÄresources/one/index.html×ÊÔ´-----------------");
+	   System.out.println("è·¯ç”±å¤„ç†ä¼˜å…ˆçº§ä¸ºç¬¬äºŒ");
+   	   System.out.println("---------------é…ç½®è¯·æ±‚è·¯ç”±çš„å¯¹åº”æ—¶è¿”å›é¡¹ç›®ä¸‹çš„resources/one/index.htmlèµ„æº-----------------");
        registry.addViewController("/results").setViewName("/one/index");
        //registry.addViewController("/404").setViewName("/one/404");   
    }
 	 
    public void addResourceHandlers(ResourceHandlerRegistry registry) { 
-	    System.out.println("Â·ÓÉ´¦ÀíÓÅÏÈ¼¶ÎªµÚÈı");
-	    System.out.println("-----------¾²Ì¬×ÊÔ´·ÃÎÊÅäÖÃ------------");
-	    //¾²Ì¬Â·¾¶·ÃÎÊÉèÖÃ£¬Ò²¾ÍÊÇ/public/xxxÇëÇóÊ±£¬¿ÉÒÔ·ÃÎÊÏîÄ¿ÏÂµÄresources/publicÎÄ¼ş¼ĞÏÂµÄ×ÊÔ´£¨ÎÄ¼ş£©£¬xxx¶ÔÓÚÎÄ¼ş¼ĞÏÂµÄ×ÊÔ´
+	    System.out.println("è·¯ç”±å¤„ç†ä¼˜å…ˆçº§ä¸ºç¬¬ä¸‰");
+	    System.out.println("-----------é™æ€èµ„æºè®¿é—®é…ç½®------------");
+	    //é™æ€è·¯å¾„è®¿é—®è®¾ç½®ï¼Œä¹Ÿå°±æ˜¯/public/xxxè¯·æ±‚æ—¶ï¼Œå¯ä»¥è®¿é—®é¡¹ç›®ä¸‹çš„resources/publicæ–‡ä»¶å¤¹ä¸‹çš„èµ„æºï¼ˆæ–‡ä»¶ï¼‰ï¼Œxxxå¯¹äºæ–‡ä»¶å¤¹ä¸‹çš„èµ„æº
         registry.addResourceHandler("/public/**").addResourceLocations("classpath:/public/");
     }
 	 

@@ -20,7 +20,7 @@ public class Form {
 
     @GetMapping("")
     public String showForm(ValidForm personForm,Model model) {
-    	//model.addAttribute("validForm", new PersonForm());
+    	model.addAttribute("validForm", new PersonForm());
         return "one/form";
     }
   

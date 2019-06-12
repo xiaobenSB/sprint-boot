@@ -1,41 +1,232 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<script>
-function loadXMLDoc()
-{
-	var xmlhttp;
-	if (window.XMLHttpRequest)
-	{
-		//  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
-		xmlhttp=new XMLHttpRequest();
-	}
-	else
-	{
-		// IE6, IE5 浏览器执行代码
-		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-	}
-	xmlhttp.onreadystatechange=function()
-	{
-		if (xmlhttp.readyState==4 && xmlhttp.status==200)
-		{
-			document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
-		}else if(xmlhttp.readyState==4){
-		    document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
-		}else{
-		    document.getElementById("myDiv").innerHTML="该请求握手途中失败";
-		}
-	}
-	xmlhttp.open("GET","http://127.0.0.1:8080/index?uid=440825199912290033&name=1",true);
-	xmlhttp.send();
-}
-</script>
-</head>
-<body>
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>Bootstrap 101 Template</title>
 
-<div id="myDiv"><h2>使用 AJAX 修改该文本内容</h2></div>
-<button type="button" onclick="loadXMLDoc()">修改内容</button>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
 
-</body>
+    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  
+  <style>
+            #mydiv{
+                width: 100px;
+                height: 100px;
+                background: red;
+                -webkit-transition: width 2s;
+                transition: width 2s;
+            }
+            #mydiv:hover{
+                width: 400px;
+            }
+        </style>
+  
+  <body>
+
+  
+<!-- .container   有@media (min-width: 992px)等等媒体查询设置，所以在大屏显示器的效果为：页面宽度不占满，因为@media (min-width: 992px)设置了    width: 970px;
+ -->
+ <div id="wrap"> 
+      <!-- Static navbar -->
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Project name</a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li class="active"><a href="#">Home</a></li>
+              <li><a href="#">About</a></li>
+              <li><a href="#">Contact</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Action</a></li>
+                  <li><a href="#">Another action</a></li>
+                  <li><a href="#">Something else here</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li class="dropdown-header">Nav header</li>
+                  <li><a href="#">Separated link</a></li>
+                  <li><a href="#">One more separated link</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#">Separated link Two</a></li>
+                  <li><a href="#">One more separated link Two</a></li>
+                </ul>
+              </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li class="active"><a href="./">Default <span class="sr-only">(current)</span></a></li>
+              <li><a href="../navbar-static-top/">Static top</a></li>
+              <li><a href="../navbar-fixed-top/">Fixed top</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-left">
+              <li class="active"><a href="./">Default <span class="sr-only">(current)</span></a></li>
+              <li><a href="../navbar-static-top/">Static top</a></li>
+              <li><a href="../navbar-fixed-top/">Fixed top</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+      </nav>
+ </div>
+ <div class="container-fluid">
+      <!-- Main component for a primary marketing message or call to action -->
+      <div class="jumbotron">
+        <h1>Navbar example</h1>
+        <p>This example is a quick exercise to illustrate how the default, static navbar and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
+        <p>
+          <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs &raquo;</a>
+        </p>
+      </div>
+      
+      <ol class="breadcrumb">
+		  <li><a href="#">Home</a></li>
+		  <li><a href="#">Library</a></li>
+		  <li class="active">Data</li>
+      </ol>
+
+<ul class="list-group">
+  <li class="list-group-item">Cras justo odio</li>
+  <li class="list-group-item">Dapibus ac facilisis in</li>
+  <li class="list-group-item">Morbi leo risus</li>
+  <li class="list-group-item">Porta ac consectetur ac</li>
+  <li class="list-group-item">Vestibulum at eros</li>
+</ul>
+
+<!--
+/*
+   *   下面为栅格布局，使用的css是媒体查询，作用是当屏幕（@media (min-width:992px)）小于992px时，该媒体查询设置不生效
+   *    该方式布局有个好处：当媒体查询失效时，原本使用媒体查询 的标签就会独占一行，因为他原本就是块级元素
+   *    因为只有媒体查询才有： float:left; width:xx%;   设置
+ *
+ *  .col-xs-这个没有设置媒体查询，是设置在class，(媒体查询生效清空下)说明了媒体查询的样式级别低，class再到媒体查询，所以媒体查询会覆盖掉class,
+   *       所以设置.col-xs-就代表要永远使用：width:xx%;和float:left;了，因为不会失效
+ *  .col-xs-    为：  超小屏幕(手机)    < 768px 时就会触发                
+ *  .col-sm-    为：  小屏幕(平板)        >=768px 时就会触发                                     @media (min-width: 768px)   
+ *  .col-md-    为：  中等屏幕(桌面显示器)        >=992px 时就会触发                 @media (min-width:992px)
+ *  .col-lg-    为：  大屏幕(大桌面显示器)        >=1200px 时就会触发               
+ *
+   *      上面的.col-    都设置了： position:relative;  min-height:1px; padding-right和left:  15px;  
+   *       一般情况下，我们如果要适应手机，电脑布局的话只需要上面三种   .col-xs-   .col-sm-   .col-md-
+   *       因为   .col-md-和.col-lg-有冲突，一个大于或等于992，一个是大于或等于1200 ，当屏幕大于991时，两个对应的媒体查询都能生效
+   *       不过需要注意:      当屏幕大于1199时，   .col-lg-生效  .col-md-不生效，说明了991的优先级高，1199的优先级低
+ *  
+   *      注意：如果媒体查询不生效了，由于媒体查询的优先级低才会覆盖掉我们之前设的class,那么它不生效了，我们之前设的class就可以显示了 
+ */
+ -->
+
+<div class="row">
+  <div class="col-md-1">小明</div>
+  <div class="col-md-1">.col-md-1</div>
+  <div class="col-md-1">.col-md-1</div>
+  <div class="col-md-1">.col-md-1</div>
+  <div class="col-md-1">.col-md-1</div>
+  <div class="col-md-1">.col-md-1</div>
+  <div class="col-md-1">.col-md-1</div>
+  <div class="col-md-1">.col-md-1</div>
+  <div class="col-md-1">.col-md-1</div>
+  <div class="col-md-1">.col-md-1</div>
+  <div class="col-md-1">.col-md-1</div>
+  <div class="col-md-1">.col-md-1</div>
+</div>
+<div class="row">
+  <div class="col-md-8">小兰</div>
+  <div class="col-md-4">.col-md-4</div>
+</div>
+<div class="row">
+  <div class="col-md-4">小红</div>
+  <div class="col-md-4">.col-md-4</div>
+  <div class="col-md-4">.col-md-4</div>
+</div>
+<div class="row">
+  <div class="col-md-6 col-sm-6">硝酸钠</div>
+  <div class="col-md-6 col-sm-6">.col-md-6</div>
+</div>
+
+
+<div class="row">
+  <div class="col-xs-12 col-sm-6 col-md-8">小吴</div>
+  <div class="col-xs-6 col-md-4">小六</div>
+</div>
+<div class="row">
+  <div class="col-xs-6 col-sm-6 col-md-6">小七</div>
+  <div class="col-xs-6 col-sm-6 col-md-6">小八</div>
+  <!-- Optional: clear the XS cols if their content doesn't match in height -->
+  <div class="clearfix visible-xs-block"></div>
+  <div class="col-xs-6 col-sm-4">.col-xs-6 .col-sm-4</div>
+</div>
+
+
+    </div> <!-- /container -->
+    
+    <div class="page-header">
+        <h1>Carousel</h1>
+      </div>
+      <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+          <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+          <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+          <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner" role="listbox">
+          <div class="item active">
+            <img src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=3090432518,1711259870&fm=58&bpow=1024&bpoh=860" style="margin: 0 auto" alt="First slide">
+          </div>
+          <div class="item">
+            <img src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=3090432518,1711259870&fm=58&bpow=1024&bpoh=860" style="margin: 0 auto" alt="Second slide">
+          </div>
+          <div class="item">
+            <img src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=3090432518,1711259870&fm=58&bpow=1024&bpoh=860" style="margin: 0 auto" alt="Third slide">
+          </div>
+        </div>
+        <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+          <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+          <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+
+    
+<div id="mydiv">
+            
+        </div>
+    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+ 
+    <script>
+         
+        
+         
+        
+        /*if($(window).width() < 769){
+	         document.getElementById("wrap").className="container-fluid";
+	      };
+		 window.onresize = function(){
+		      console.log(111111);
+		      if($(window).width() < 769){
+		         document.getElementById("wrap").className="container-fluid";
+		      };
+		 }*/
+    </script>
+  </body>
 </html>

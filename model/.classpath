@@ -24,5 +24,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/alipay.trade.wap.pay-java-utf-8/WebContent/WEB-INF/lib/alipay-sdk-java-3.3.0.jar"/>
+	<classpathentry kind="lib" path="/alipay.trade.wap.pay-java-utf-8/WebContent/WEB-INF/lib/commons-logging-1.1.1.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
