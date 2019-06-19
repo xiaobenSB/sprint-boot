@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>Animate.css</title>
+
+    <!-- Animate.css -->
+    <link href="./css/animate.min.css" rel="stylesheet">
+
+  </head>
+  
+<style>
+
+ .yourElement {
+   animation-duration: 5s; /*设置动画在5秒内完成:*/
+   animation-delay: 5s;    /*设置动画初始时5秒后才执行*/
+   animation-iteration-count: infinite;   /*动画连续执行*/
+}
+ 
+</style>
+  
+  <body>
+
+  <h1 class="animated bounce yourElement">bounce</h1>
+  
+  <h1 class="animated infinite bounceInRight delay-2s">bounceInRight</h1>
+  
+  <h1 class="animated infinite zoomOutUp delay-2s">zoomOutUp</h1>
+  </body>
+</html>
